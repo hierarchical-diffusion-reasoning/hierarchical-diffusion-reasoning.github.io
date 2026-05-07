@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hierarchical Denoising for Multi-Step Visual Reasoning</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f7f8fb;
+      color: #111827;
+      line-height: 1.6;
+    }
+    main {
+      max-width: 860px;
+      margin: 56px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.2;
+      margin: 0 0 24px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
+    }
+    h2 {
+      font-size: 1.15rem;
+      margin: 0 0 12px;
+      color: #374151;
+    }
+    p { margin: 0; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Hierarchical Denoising for Multi-Step Visual Reasoning</h1>
+    <section class="card">
+      <h2>Abstract</h2>
+      <p>
+        We present HDR, a simple hierarchical denoising framework for multi-step visual reasoning in video generation.
+        HDR combines coarse-to-fine latent planning with causal streaming: coarse levels maintain uncertain global hypotheses,
+        and fine levels refine them into concrete visual states.
+        This design improves reasoning consistency while keeping low-latency generation.
+        On six tasks (maze navigation, Tower of Hanoi, one-line drawing, sliding puzzle, Sokoban, and water pouring),
+        HDR improves success from 34.22 to 60.29 and average progress from 76.00 to 89.56 versus a streaming autoregressive diffusion baseline.
+        During streaming, HDR runs at 0.70s per latent and is 54.2× faster than bidirectional diffusion, while also showing stronger data efficiency.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
