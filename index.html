@@ -1,58 +1,328 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hierarchical Denoising for Multi-Step Visual Reasoning</title>
-  <style>
-    :root { color-scheme: light; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: #f7f8fb;
-      color: #111827;
-      line-height: 1.6;
-    }
-    main {
-      max-width: 860px;
-      margin: 56px auto;
-      padding: 0 20px;
-    }
-    h1 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      line-height: 1.2;
-      margin: 0 0 24px;
-    }
-    .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
-    }
-    h2 {
-      font-size: 1.15rem;
-      margin: 0 0 12px;
-      color: #374151;
-    }
-    p { margin: 0; font-size: 1rem; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="description" content="HDR introduces hierarchical denoising for low-latency multi-step visual reasoning in video generation.">
+  <meta name="keywords" content="HDR, hierarchical denoising, video reasoning, diffusion, visual reasoning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hierarchical Denoising For Multi-Step Visual Reasoning</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/index.js"></script>
 </head>
 <body>
-  <main>
-    <h1>Hierarchical Denoising for Multi-Step Visual Reasoning</h1>
-    <section class="card">
-      <h2>Abstract</h2>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#abstract">Abstract</a>
+      <a class="navbar-item" href="#method">Method</a>
+      <a class="navbar-item" href="#results">Results</a>
+      <a class="navbar-item" href="#videos">Videos</a>
+      <a class="navbar-item" href="#BibTeX">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero publication-header">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Hierarchical Denoising For Multi-Step Visual Reasoning</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Anonymous Author(s)</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Submitted to NeurIPS 2026</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="./static/paper/hdr.pdf" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#videos" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="far fa-file-video"></i></span>
+                  <span>Supplementary Videos</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/hierarchical-diffusion-reasoning/hierarchical-diffusion-reasoning.github.io" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Project Site</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-value">60.29</span>
+              <span class="stat-label">Overall success</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">89.56</span>
+              <span class="stat-label">Average progress</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">0.70s</span>
+              <span class="stat-label">Streaming latency</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">54.2x</span>
+              <span class="stat-label">Faster than bidirectional diffusion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img class="teaser-image" src="./static/images/paper/paradigm.png" alt="Comparison of bidirectional, autoregressive, and HDR video generation paradigms.">
+      <h2 class="subtitle has-text-centered">
+        HDR organizes video latents into a coarse-to-fine hierarchy, preserving revisable high-level plans before committing to streaming visual outputs.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Video models are recently evolving into vision foundation models, but they still lack human-like, multi-step reasoning. Existing streaming autoregressive diffusion models are efficient but lack the reasoning ability, whereas bidirectional diffusion allows for global revision but incurs high inference cost due to the dense frames in fixed-sequence denoising. Consequently, both paradigms struggle to maintain logical consistency with low-latency streaming in complex reasoning tasks.
+          </p>
+          <p>
+            Bridging this gap, we propose HDR (Hierarchical Denoising for Visual Reasoning), a unified framework for multi-step reasoning by integrating hierarchical latents into the causal video generation process. HDR organizes video latents into a tree-structured hierarchy to perform coarse-to-fine reasoning before streaming output. Coarse denoising layers maintain uncertain hypotheses for global planning, while finer denoising layers progressively refine them into concrete visual states. A sparse hierarchical attention pattern further reduces temporal attention cost.
+          </p>
+          <p>
+            We construct a level-stratified multi-step video reasoning benchmark with out-of-distribution cases, covering six tasks: maze navigation, Tower of Hanoi, one-line drawing, sliding puzzle, Sokoban, and water pouring. Compared with the streaming autoregressive diffusion baseline, HDR improves overall success from 34.22 to 60.29 and average progress from 76.00 to 89.56, while maintaining low-latency streaming at 0.70s per latent.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-light" id="method">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <div class="paper-figure">
+          <img src="./static/images/paper/method.png" alt="Overview of HDR with hierarchical video tokens and sparse hierarchical attention pattern.">
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            HDR represents video latents as a tree-structured hierarchy across temporal resolutions. During inference, tokens are generated in a coarse-to-fine autoregressive order: upper layers form global hypotheses, lower layers refine those hypotheses into concrete visual states, and the final layer streams the output.
+          </p>
+          <p>
+            SHAP (Sparse Hierarchical Attention Pattern) lets each token attend only to fixed local, parent-level, and first-frame contexts. This keeps temporal attention sparse while allowing information from coarse planning layers to flow into fine visual generation through a shared KV cache.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Benchmark</h2>
+    <div class="paper-figure">
+      <img src="./static/images/paper/benchmark.png" alt="Six multi-step video reasoning benchmarks.">
+    </div>
+    <div class="content has-text-justified">
       <p>
-        We present HDR, a simple hierarchical denoising framework for multi-step visual reasoning in video generation.
-        HDR combines coarse-to-fine latent planning with causal streaming: coarse levels maintain uncertain global hypotheses,
-        and fine levels refine them into concrete visual states.
-        This design improves reasoning consistency while keeping low-latency generation.
-        On six tasks (maze navigation, Tower of Hanoi, one-line drawing, sliding puzzle, Sokoban, and water pouring),
-        HDR improves success from 34.22 to 60.29 and average progress from 76.00 to 89.56 versus a streaming autoregressive diffusion baseline.
-        During streaming, HDR runs at 0.70s per latent and is 54.2× faster than bidirectional diffusion, while also showing stronger data efficiency.
+        The benchmark covers six long-horizon reasoning tasks that require logical consistency across generated trajectories rather than only local visual plausibility: maze navigation, Tower of Hanoi, one-line drawing, sliding puzzle, Sokoban, and water pouring.
       </p>
-    </section>
-  </main>
+    </div>
+  </div>
+</section>
+
+<section class="section is-light" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Main Results</h2>
+    <div class="paper-figure wide">
+      <img src="./static/images/paper/main_results_table.png" alt="Main quantitative comparison table.">
+    </div>
+    <div class="columns is-centered metric-row">
+      <div class="column">
+        <div class="metric-box">
+          <div class="metric-number">76.2%</div>
+          <div class="metric-text">Relative success gain over CausalForcing</div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="metric-box">
+          <div class="metric-number">+13.56</div>
+          <div class="metric-text">Average progress improvement</div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="metric-box">
+          <div class="metric-number">37.92s -> 0.70s</div>
+          <div class="metric-text">Streaming latency versus bidirectional diffusion</div>
+        </div>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        HDR achieves the best overall success and average progress among compared methods while retaining the low-latency streaming behavior of autoregressive diffusion.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Qualitative Reasoning</h2>
+        <div class="paper-figure">
+          <img src="./static/images/paper/qualitative.png" alt="Qualitative comparison between CausalForcing and HDR.">
+        </div>
+        <div class="paper-figure">
+          <img src="./static/images/paper/hierarchy_predictions.png" alt="HDR hierarchical intermediate predictions.">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Ablations and Robot Transfer</h2>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="paper-figure">
+          <img src="./static/images/paper/robustness.png" alt="Robustness ablations for denoising steps and training data scale.">
+        </div>
+      </div>
+      <div class="column">
+        <div class="paper-figure">
+          <img src="./static/images/paper/layer_ablation.png" alt="Hierarchical layer ablation.">
+        </div>
+        <div class="paper-figure">
+          <img src="./static/images/paper/robot.png" alt="Physical-world robot maze experiment.">
+        </div>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        The hierarchy improves robustness under reduced denoising budgets and limited training data. In physical-world maze experiments, HDR also transfers to robot interaction after fine-tuning on 50 real-world robot maze videos.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small" id="videos">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Supplementary Visualizations</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00000_maze.mp4" type="video/mp4">
+          </video>
+          <p>Maze navigation</p>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00055_hanoi.mp4" type="video/mp4">
+          </video>
+          <p>Tower of Hanoi</p>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00135_one_line_drawing.mp4" type="video/mp4">
+          </video>
+          <p>One-line drawing</p>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00195_sliding_puzzle.mp4" type="video/mp4">
+          </video>
+          <p>Sliding puzzle</p>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00255_sokoban.mp4" type="video/mp4">
+          </video>
+          <p>Sokoban</p>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline>
+            <source src="./static/videos/supplementary/00315_water_pour.mp4" type="video/mp4">
+          </video>
+          <p>Water pouring</p>
+        </div>
+      </div>
+      <p class="has-text-centered video-note">
+        All extracted supplementary MP4 files are included under <code>static/videos/supplementary/</code>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{anonymous2026hdr,
+  title     = {Hierarchical Denoising For Multi-Step Visual Reasoning},
+  author    = {Anonymous Author(s)},
+  booktitle = {Submitted to the 40th Conference on Neural Information Processing Systems},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="./static/paper/hdr.pdf" aria-label="Paper PDF">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/hierarchical-diffusion-reasoning/hierarchical-diffusion-reasoning.github.io" aria-label="GitHub repository">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            Website template adapted from <a href="https://nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
