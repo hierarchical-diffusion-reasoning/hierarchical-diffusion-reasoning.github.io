@@ -31,7 +31,6 @@
       <a class="navbar-item" href="#method">Method</a>
       <a class="navbar-item" href="#results">Results</a>
       <a class="navbar-item" href="#videos">Videos</a>
-      <a class="navbar-item" href="#BibTeX">BibTeX</a>
     </div>
   </div>
 </nav>
@@ -42,12 +41,6 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Hierarchical Denoising For Multi-Step Visual Reasoning</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">Anonymous Author(s)</span>
-          </div>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">Submitted to NeurIPS 2026</span>
-          </div>
 
           <div class="stats-grid">
             <div class="stat-card">
@@ -234,33 +227,33 @@
       <div class="tree-video-list">
         <div class="tree-video-row">
           <div class="tree-label">L1 · 1 latent</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_01_01_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_01_01_latents.mp4" type="video/mp4"></video>
         </div>
         <div class="tree-video-row">
           <div class="tree-label">L2 · 2 latents</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_02_02_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_02_02_latents.mp4" type="video/mp4"></video>
         </div>
         <div class="tree-video-row">
           <div class="tree-label">L3 · 4 latents</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_03_04_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_03_04_latents.mp4" type="video/mp4"></video>
         </div>
         <div class="tree-video-row">
           <div class="tree-label">L4 · 8 latents</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_04_08_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_04_08_latents.mp4" type="video/mp4"></video>
         </div>
         <div class="tree-video-row">
           <div class="tree-label">L5 · 16 latents</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_05_16_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_05_16_latents.mp4" type="video/mp4"></video>
         </div>
         <div class="tree-video-row">
           <div class="tree-label">L6 · 21 latents</div>
-          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_06_21_latents.mp4" type="video/mp4"></video>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/layer_06_21_latents.mp4" type="video/mp4"></video>
         </div>
       </div>
     </div>
     <div class="content has-text-justified">
       <p>
-        A maze rollout is sampled at progressively finer temporal resolutions to visualize the tree used by HDR: coarse levels summarize long-range planning, and lower levels expose increasingly dense latent states before final streaming output.
+        A hard maze case visualizes HDR's tree-structured hierarchy: coarse levels summarize long-range planning, and lower levels expose increasingly dense latent states before final streaming output.
       </p>
     </div>
   </div>
@@ -337,15 +330,29 @@
   </div>
 </section>
 
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@inproceedings{anonymous2026hdr,
-  title     = {Hierarchical Denoising For Multi-Step Visual Reasoning},
-  author    = {Anonymous Author(s)},
-  booktitle = {Submitted to the 40th Conference on Neural Information Processing Systems},
-  year      = {2026}
-}</code></pre>
+<section class="section" id="execution">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Execution Videos</h2>
+    <div class="execution-grid">
+      <div class="execution-card">
+        <video autoplay controls muted loop playsinline>
+          <source src="./static/videos/execution/front_image.mp4" type="video/mp4">
+        </video>
+        <p>Front view</p>
+      </div>
+      <div class="execution-card">
+        <video autoplay controls muted loop playsinline>
+          <source src="./static/videos/execution/left_image.mp4" type="video/mp4">
+        </video>
+        <p>Left view</p>
+      </div>
+      <div class="execution-card">
+        <video autoplay controls muted loop playsinline>
+          <source src="./static/videos/execution/right_image.mp4" type="video/mp4">
+        </video>
+        <p>Right view</p>
+      </div>
+    </div>
   </div>
 </section>
 

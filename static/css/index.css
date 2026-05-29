@@ -251,6 +251,37 @@ body {
   text-align: center;
 }
 
+.execution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.execution-card {
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0.75rem;
+  box-shadow: 0 8px 20px rgba(31, 46, 70, 0.05);
+}
+
+.execution-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #111827;
+}
+
+.execution-card p {
+  margin: 0.65rem 0 0;
+  color: #2f3a46;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
 pre {
   border-radius: 8px;
 }
@@ -276,7 +307,8 @@ pre {
   }
 
   .ablation-grid,
-  .hierarchy-tree {
+  .hierarchy-tree,
+  .execution-grid {
     grid-template-columns: 1fr;
   }
 
