@@ -9,13 +9,11 @@
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
   <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/index.js"></script>
 </head>
 <body>
@@ -49,29 +47,6 @@
           </div>
           <div class="is-size-5 publication-authors">
             <span class="author-block">Submitted to NeurIPS 2026</span>
-          </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <span class="link-block">
-                <a href="./static/paper/hdr.pdf" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="#videos" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="far fa-file-video"></i></span>
-                  <span>Supplementary Videos</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://github.com/hierarchical-diffusion-reasoning/hierarchical-diffusion-reasoning.github.io" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fab fa-github"></i></span>
-                  <span>Project Site</span>
-                </a>
-              </span>
-            </div>
           </div>
 
           <div class="stats-grid">
@@ -218,19 +193,15 @@
 <section class="section is-light">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Ablations and Robot Transfer</h2>
-    <div class="columns is-centered">
-      <div class="column">
-        <div class="paper-figure">
-          <img src="./static/images/paper/robustness.png" alt="Robustness ablations for denoising steps and training data scale.">
-        </div>
+    <div class="ablation-grid">
+      <div class="paper-figure">
+        <img src="./static/images/paper/robustness.png" alt="Robustness ablations for denoising steps and training data scale.">
       </div>
-      <div class="column">
-        <div class="paper-figure">
-          <img src="./static/images/paper/layer_ablation.png" alt="Hierarchical layer ablation.">
-        </div>
-        <div class="paper-figure">
-          <img src="./static/images/paper/robot.png" alt="Physical-world robot maze experiment.">
-        </div>
+      <div class="paper-figure">
+        <img src="./static/images/paper/layer_ablation.png" alt="Hierarchical layer ablation.">
+      </div>
+      <div class="paper-figure robot-transfer">
+        <img src="./static/images/paper/robot.png" alt="Physical-world robot maze experiment.">
       </div>
     </div>
     <div class="content has-text-justified">
@@ -241,46 +212,122 @@
   </div>
 </section>
 
+<section class="section" id="hierarchy-videos">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Hierarchical Latent Tree</h2>
+    <div class="hierarchy-tree">
+      <div class="tree-diagram" aria-label="Binary latent tree with six temporal resolutions.">
+        <div class="tree-level level-1"><span></span></div>
+        <div class="tree-level level-2"><span></span><span></span></div>
+        <div class="tree-level level-3"><span></span><span></span><span></span><span></span></div>
+        <div class="tree-level level-4"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="tree-level level-5">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="tree-level level-6">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="tree-video-list">
+        <div class="tree-video-row">
+          <div class="tree-label">L1 · 1 latent</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_01_01_latents.mp4" type="video/mp4"></video>
+        </div>
+        <div class="tree-video-row">
+          <div class="tree-label">L2 · 2 latents</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_02_02_latents.mp4" type="video/mp4"></video>
+        </div>
+        <div class="tree-video-row">
+          <div class="tree-label">L3 · 4 latents</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_03_04_latents.mp4" type="video/mp4"></video>
+        </div>
+        <div class="tree-video-row">
+          <div class="tree-label">L4 · 8 latents</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_04_08_latents.mp4" type="video/mp4"></video>
+        </div>
+        <div class="tree-video-row">
+          <div class="tree-label">L5 · 16 latents</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_05_16_latents.mp4" type="video/mp4"></video>
+        </div>
+        <div class="tree-video-row">
+          <div class="tree-label">L6 · 21 latents</div>
+          <video autoplay controls muted loop playsinline><source src="./static/videos/hierarchy/maze_level_06_21_latents.mp4" type="video/mp4"></video>
+        </div>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        A maze rollout is sampled at progressively finer temporal resolutions to visualize the tree used by HDR: coarse levels summarize long-range planning, and lower levels expose increasingly dense latent states before final streaming output.
+      </p>
+    </div>
+  </div>
+</section>
+
 <section class="hero is-small" id="videos">
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Supplementary Visualizations</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00000_maze.mp4" type="video/mp4">
-          </video>
-          <p>Maze navigation</p>
+      <div class="video-task-section">
+        <h3 class="title is-4">Maze Navigation</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00000_maze.mp4" type="video/mp4"></video><p>Maze 00000</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00001_maze.mp4" type="video/mp4"></video><p>Maze 00001</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00002_maze.mp4" type="video/mp4"></video><p>Maze 00002</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00003_maze.mp4" type="video/mp4"></video><p>Maze 00003</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00004_maze.mp4" type="video/mp4"></video><p>Maze 00004</p></div>
         </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00055_hanoi.mp4" type="video/mp4">
-          </video>
-          <p>Tower of Hanoi</p>
+      </div>
+      <div class="video-task-section">
+        <h3 class="title is-4">Tower of Hanoi</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00055_hanoi.mp4" type="video/mp4"></video><p>Hanoi 00055</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00056_hanoi.mp4" type="video/mp4"></video><p>Hanoi 00056</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00057_hanoi.mp4" type="video/mp4"></video><p>Hanoi 00057</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00058_hanoi.mp4" type="video/mp4"></video><p>Hanoi 00058</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00059_hanoi.mp4" type="video/mp4"></video><p>Hanoi 00059</p></div>
         </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00135_one_line_drawing.mp4" type="video/mp4">
-          </video>
-          <p>One-line drawing</p>
+      </div>
+      <div class="video-task-section">
+        <h3 class="title is-4">One-Line Drawing</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00135_one_line_drawing.mp4" type="video/mp4"></video><p>One-line 00135</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00136_one_line_drawing.mp4" type="video/mp4"></video><p>One-line 00136</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00137_one_line_drawing.mp4" type="video/mp4"></video><p>One-line 00137</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00138_one_line_drawing.mp4" type="video/mp4"></video><p>One-line 00138</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00139_one_line_drawing.mp4" type="video/mp4"></video><p>One-line 00139</p></div>
         </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00195_sliding_puzzle.mp4" type="video/mp4">
-          </video>
-          <p>Sliding puzzle</p>
+      </div>
+      <div class="video-task-section">
+        <h3 class="title is-4">Sliding Puzzle</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00195_sliding_puzzle.mp4" type="video/mp4"></video><p>Sliding 00195</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00196_sliding_puzzle.mp4" type="video/mp4"></video><p>Sliding 00196</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00197_sliding_puzzle.mp4" type="video/mp4"></video><p>Sliding 00197</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00198_sliding_puzzle.mp4" type="video/mp4"></video><p>Sliding 00198</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00199_sliding_puzzle.mp4" type="video/mp4"></video><p>Sliding 00199</p></div>
         </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00255_sokoban.mp4" type="video/mp4">
-          </video>
-          <p>Sokoban</p>
+      </div>
+      <div class="video-task-section">
+        <h3 class="title is-4">Sokoban</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00255_sokoban.mp4" type="video/mp4"></video><p>Sokoban 00255</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00256_sokoban.mp4" type="video/mp4"></video><p>Sokoban 00256</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00257_sokoban.mp4" type="video/mp4"></video><p>Sokoban 00257</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00258_sokoban.mp4" type="video/mp4"></video><p>Sokoban 00258</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00259_sokoban.mp4" type="video/mp4"></video><p>Sokoban 00259</p></div>
         </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline>
-            <source src="./static/videos/supplementary/00315_water_pour.mp4" type="video/mp4">
-          </video>
-          <p>Water pouring</p>
+      </div>
+      <div class="video-task-section">
+        <h3 class="title is-4">Water Pouring</h3>
+        <div class="video-strip">
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00315_water_pour.mp4" type="video/mp4"></video><p>Water 00315</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00316_water_pour.mp4" type="video/mp4"></video><p>Water 00316</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00317_water_pour.mp4" type="video/mp4"></video><p>Water 00317</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00318_water_pour.mp4" type="video/mp4"></video><p>Water 00318</p></div>
+          <div class="video-card"><video autoplay controls muted loop playsinline><source src="./static/videos/supplementary/00319_water_pour.mp4" type="video/mp4"></video><p>Water 00319</p></div>
         </div>
       </div>
       <p class="has-text-centered video-note">

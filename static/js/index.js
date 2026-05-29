@@ -9,19 +9,4 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
-
-  if (window.bulmaCarousel) {
-    bulmaCarousel.attach('.carousel', {
-      slidesToScroll: 1,
-      slidesToShow: 3,
-      loop: true,
-      infinite: true,
-      autoplay: false,
-      pagination: true,
-      breakpoints: [
-        { changePoint: 768, slidesToShow: 1, slidesToScroll: 1 },
-        { changePoint: 1024, slidesToShow: 2, slidesToScroll: 1 }
-      ]
-    });
-  }
 });
