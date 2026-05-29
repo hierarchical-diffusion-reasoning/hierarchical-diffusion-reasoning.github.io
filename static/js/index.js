@@ -13,70 +13,127 @@ document.addEventListener('DOMContentLoaded', function () {
   var hierarchyVideo = document.getElementById('hierarchy-video');
   var hierarchyLabel = document.getElementById('hierarchy-label');
   var layerTabs = Array.prototype.slice.call(document.querySelectorAll('.layer-tab'), 0);
-  var treeLevels = Array.prototype.slice.call(document.querySelectorAll('.tree-level[data-layer]'), 0);
-  var treeDiagram = document.querySelector('.tree-diagram');
-  var treeEdges = document.querySelector('.tree-edges');
+  var latentTreeSvg = document.getElementById('latent-tree-svg');
+  var svgNamespace = 'http://www.w3.org/2000/svg';
+  var treeLayers = [
+    { layer: '1', count: 1, y: 42, span: 0 },
+    { layer: '2', count: 2, y: 132, span: 170 },
+    { layer: '3', count: 4, y: 222, span: 270 },
+    { layer: '4', count: 8, y: 312, span: 370 },
+    { layer: '5', count: 16, y: 402, span: 470 },
+    { layer: '6', count: 21, y: 500, span: 540 }
+  ];
+  var treeNodes = [];
+  var treeEdges = [];
 
-  function drawTreeEdges(activeLayer) {
-    if (!treeDiagram || !treeEdges) {
+  function createSvgElement(tagName, attributes) {
+    var element = document.createElementNS(svgNamespace, tagName);
+    Object.keys(attributes).forEach(function (name) {
+      element.setAttribute(name, attributes[name]);
+    });
+    return element;
+  }
+
+  function layerXPositions(count, span) {
+    if (count === 1) {
+      return [320];
+    }
+
+    var start = 320 - span / 2;
+    var step = span / (count - 1);
+    return Array.from({ length: count }, function (_, index) {
+      return start + index * step;
+    });
+  }
+
+  function buildLatentTree() {
+    if (!latentTreeSvg) {
       return;
     }
 
-    treeEdges.innerHTML = '';
-
-    var diagramRect = treeDiagram.getBoundingClientRect();
-    var scrollLeft = treeDiagram.scrollLeft;
-    var scrollTop = treeDiagram.scrollTop;
-    var levelNodes = treeLevels.map(function (level) {
-      return Array.prototype.slice.call(level.querySelectorAll('span'), 0);
+    var edgeGroup = createSvgElement('g', { class: 'tree-edge-layer' });
+    var haloGroup = createSvgElement('g', { class: 'tree-halo-layer' });
+    var nodeGroup = createSvgElement('g', { class: 'tree-node-layer' });
+    var layerCoordinates = treeLayers.map(function (layerSpec) {
+      return layerXPositions(layerSpec.count, layerSpec.span).map(function (x) {
+        return { x: x, y: layerSpec.y, layer: layerSpec.layer };
+      });
     });
 
-    treeEdges.setAttribute('width', Math.max(treeDiagram.scrollWidth, diagramRect.width));
-    treeEdges.setAttribute('height', Math.max(treeDiagram.scrollHeight, diagramRect.height));
-    treeEdges.setAttribute('viewBox', '0 0 ' + Math.max(treeDiagram.scrollWidth, diagramRect.width) + ' ' + Math.max(treeDiagram.scrollHeight, diagramRect.height));
+    treeEdges = [];
+    treeNodes = [];
+    latentTreeSvg.innerHTML = '';
 
-    levelNodes.forEach(function (nodes, levelIndex) {
-      var childNodes = levelNodes[levelIndex + 1];
+    layerCoordinates.forEach(function (nodes, levelIndex) {
+      var childNodes = layerCoordinates[levelIndex + 1];
       if (!childNodes) {
         return;
       }
 
       nodes.forEach(function (node, nodeIndex) {
-        var children = childNodes.filter(function (_, childIndex) {
-          if (levelIndex === 4) {
-            return Math.floor(childIndex * nodes.length / childNodes.length) === nodeIndex;
-          }
-          return Math.floor(childIndex / 2) === nodeIndex;
-        });
+        childNodes.forEach(function (child, childIndex) {
+          var parentIndex = levelIndex === 4
+            ? Math.floor(childIndex * nodes.length / childNodes.length)
+            : Math.floor(childIndex / 2);
 
-        children.forEach(function (child) {
-          var parentRect = node.getBoundingClientRect();
-          var childRect = child.getBoundingClientRect();
-          var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute('x1', parentRect.left + parentRect.width / 2 - diagramRect.left + scrollLeft);
-          line.setAttribute('y1', parentRect.top + parentRect.height / 2 - diagramRect.top + scrollTop);
-          line.setAttribute('x2', childRect.left + childRect.width / 2 - diagramRect.left + scrollLeft);
-          line.setAttribute('y2', childRect.top + childRect.height / 2 - diagramRect.top + scrollTop);
-          line.classList.toggle('is-active', String(levelIndex + 1) === activeLayer || String(levelIndex + 2) === activeLayer);
-          treeEdges.appendChild(line);
+          if (parentIndex !== nodeIndex) {
+            return;
+          }
+
+          var edge = createSvgElement('line', {
+            class: 'tree-edge',
+            x1: node.x,
+            y1: node.y,
+            x2: child.x,
+            y2: child.y
+          });
+          edge.dataset.parentLayer = node.layer;
+          edge.dataset.childLayer = child.layer;
+          treeEdges.push(edge);
+          edgeGroup.appendChild(edge);
         });
       });
     });
+
+    layerCoordinates.forEach(function (nodes) {
+      nodes.forEach(function (node) {
+        var halo = createSvgElement('circle', {
+          class: 'tree-node-halo',
+          cx: node.x,
+          cy: node.y,
+          r: 17
+        });
+        var circle = createSvgElement('circle', {
+          class: 'tree-node',
+          cx: node.x,
+          cy: node.y,
+          r: node.layer === '6' ? 8 : 10
+        });
+        halo.dataset.layer = node.layer;
+        circle.dataset.layer = node.layer;
+        treeNodes.push(halo, circle);
+        haloGroup.appendChild(halo);
+        nodeGroup.appendChild(circle);
+      });
+    });
+
+    latentTreeSvg.appendChild(edgeGroup);
+    latentTreeSvg.appendChild(haloGroup);
+    latentTreeSvg.appendChild(nodeGroup);
   }
 
-  drawTreeEdges('1');
+  function updateLatentTree(activeLayer) {
+    treeNodes.forEach(function (node) {
+      node.classList.toggle('is-active', node.dataset.layer === activeLayer);
+    });
 
-  window.addEventListener('resize', function () {
-    var activeTab = document.querySelector('.layer-tab.is-active');
-    drawTreeEdges(activeTab ? activeTab.dataset.layer : '1');
-  });
-
-  if (treeDiagram) {
-    treeDiagram.addEventListener('scroll', function () {
-      var activeTab = document.querySelector('.layer-tab.is-active');
-      drawTreeEdges(activeTab ? activeTab.dataset.layer : '1');
+    treeEdges.forEach(function (edge) {
+      edge.classList.toggle('is-active', edge.dataset.parentLayer === activeLayer || edge.dataset.childLayer === activeLayer);
     });
   }
+
+  buildLatentTree();
+  updateLatentTree('1');
 
   layerTabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
@@ -87,10 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
         item.classList.toggle('is-active', item === tab);
       });
 
-      treeLevels.forEach(function (levelNode) {
-        levelNode.classList.toggle('is-active', levelNode.dataset.layer === layer);
-      });
-      drawTreeEdges(layer);
+      updateLatentTree(layer);
 
       if (hierarchyVideo && source) {
         var sourceNode = hierarchyVideo.querySelector('source');
